@@ -6,7 +6,7 @@ use ctapu4ok\VkMessengerSdk\Ips\Client;
 
 final class APIWrapper
 {
-    const RELEASE = '1.0.4';
+    const RELEASE = '1.0.5';
     private Client $API;
 
     public function logger(mixed $param, int $level = Logger::NOTICE, string $file = ''): void
