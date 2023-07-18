@@ -37,8 +37,8 @@ final class Client
 
     public function logger(mixed $param, int $level = Logger::NOTICE, string $file = ''): void
     {
-        print_r($this);
-        //echo $param.PHP_EOL;
-        ($this->logger ?? Logger::$default)->logger($param, $level, $file);
+       // print_r($this);
+        echo $param.PHP_EOL;
+       // ($this->logger ?? Logger::$default)->logger($param, $level, $file);
     }
 }
