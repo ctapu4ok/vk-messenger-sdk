@@ -1,4 +1,4 @@
-# vk-messenger-sdk a PHP LongPoll VK Messenger client
+# VK Messenger SDK a PHP LongPoll VK messenger client
 
 **VK Messenger SDK** is a system that allows you to interact with the VK API via LongPoll in asynchronous mode.
 
