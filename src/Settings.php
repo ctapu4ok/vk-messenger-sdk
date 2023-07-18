@@ -3,6 +3,7 @@
 namespace ctapu4ok\VkMessengerSdk;
 
 use ctapu4ok\VkMessengerSdk\Settings\AppInfo;
+use ctapu4ok\VkMessengerSdk\Settings\Logger;
 
 final class Settings extends SettingsAbstract
 {
@@ -11,12 +12,15 @@ final class Settings extends SettingsAbstract
      */
     protected AppInfo $appInfo;
 
+    protected Logger $logger;
+
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->appInfo = new AppInfo();
+        $this->logger = new Logger();
     }
 
     /**
@@ -34,5 +38,21 @@ final class Settings extends SettingsAbstract
     public function setAppInfo(AppInfo $appInfo): void
     {
         $this->appInfo = $appInfo;
+    }
+
+    /**
+     * @return Logger
+     */
+    public function getLogger(): Logger
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @param Logger $logger
+     */
+    public function setLogger(Logger $logger): void
+    {
+        $this->logger = $logger;
     }
 }

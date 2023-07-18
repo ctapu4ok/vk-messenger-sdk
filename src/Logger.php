@@ -6,10 +6,14 @@ namespace ctapu4ok\VkMessengerSdk;
 
 use Amp\ByteStream\WritableResourceStream;
 use Amp\ByteStream\WritableStream;
+use ctapu4ok\VkMessengerSdk\Exceptions\Exception;
+use ctapu4ok\VkMessengerSdk\Tools\Utilities;
 use Psr\Log\LoggerInterface;
+use ctapu4ok\VkMessengerSdk\Settings\Logger as SettingsLogger;
 use Revolt\EventLoop;
 use Throwable;
 
+use Webmozart\Assert\Assert;
 use const DEBUG_BACKTRACE_IGNORE_ARGS;
 use const DIRECTORY_SEPARATOR;
 
@@ -196,7 +200,7 @@ final class Logger
     const LOGGER_CALLABLE = self::CALLABLE_LOGGER;
 
     /**
-     * Construct global static logger from MadelineProto settings.
+     * Construct global static logger from VkMessenger settings.
      *
      * @param SettingsLogger $settings Settings instance
      */
@@ -222,7 +226,7 @@ final class Logger
 
         if ($this->mode === self::FILE_LOGGER) {
             if (!$optional || !\file_exists(\pathinfo($optional, PATHINFO_DIRNAME))) {
-                $optional = Magic::$script_cwd.DIRECTORY_SEPARATOR.'MadelineProto.log';
+                $optional = Utilities::$script_cwd.DIRECTORY_SEPARATOR.'VKMessenger.log';
             }
             if (!\str_ends_with($optional, '.log')) {
                 $optional .= '.log';
@@ -278,9 +282,10 @@ final class Logger
                 \error_reporting(E_ALL);
                 \ini_set('log_errors', '1');
                 \ini_set(
-                    'error_log', $this->mode === self::FILE_LOGGER
+                    'error_log',
+                    $this->mode === self::FILE_LOGGER
                     ? $this->optional
-                    : Magic::$script_cwd.DIRECTORY_SEPARATOR.'MadelineProto.log'
+                    : Utilities::$script_cwd.DIRECTORY_SEPARATOR.'VKMessenger.log'
                 );
             } catch (Exception) {
                 $this->logger('Could not enable PHP logging');
@@ -289,11 +294,11 @@ final class Logger
 
         if (!self::$printed) {
             self::$printed = true;
-            $this->colors[self::NOTICE] = \implode(';', [self::FOREGROUND['light_gray'], self::SET['bold'], self::BACKGROUND['blue']]);
-            $this->logger('MadelineProto '.MTProto::RELEASE);
-            $this->logger('Copyright (C) 2016-'.\date('Y').' Daniil Gentili');
+            $this->colors[self::NOTICE] = \implode(';', [self::FOREGROUND['white'], self::SET['bold'], self::BACKGROUND['red']]);
+            $this->logger('VKMessenger '.APIWrapper::RELEASE);
+            $this->logger('Copyright (C) 2023-'.\date('Y').' Shtepa Stanislav');
             $this->logger('Licensed under AGPLv3');
-            $this->logger('https://github.com/danog/MadelineProto');
+            $this->logger('https://github.com/ctapu4ok/vk-messenger-sdk');
             $this->colors[self::NOTICE] = \implode(';', [self::FOREGROUND['yellow'], self::SET['bold']]);
         }
     }
@@ -342,8 +347,9 @@ final class Logger
         if ($level > $this->level) {
             return;
         }
-        if (Magic::$suspendPeriodicLogging) {
-            Magic::$suspendPeriodicLogging->getFuture()->map(fn () => $this->logger($param, $level, $file));
+
+        if (Utilities::$suspendPeriodicLogging) {
+            Utilities::$suspendPeriodicLogging->getFuture()->map(fn () => $this->logger($param, $level, $file));
             return;
         }
 
@@ -351,6 +357,7 @@ final class Logger
             \call_user_func_array($this->optional, [$param, $level]);
             return;
         }
+
         $prefix = $this->prefix;
         if ($param instanceof Throwable) {
             $param = (string) $param;
@@ -369,17 +376,18 @@ final class Logger
             }
             return;
         }
-        $param = Magic::$isatty ? "\33[".$this->colors[$level].'m'.$param."\33[0m".$this->newline : $param.$this->newline;
+
+        $param = Utilities::$isatty ? "\33[".$this->colors[$level].'m'.$param."\33[0m".$this->newline : $param.$this->newline;
         try {
             $this->stdout->write($param);
         } catch (\Throwable) {
             switch ($this->mode) {
-            case self::ECHO_LOGGER:
-                echo $param;
-                break;
-            case self::FILE_LOGGER:
-                \file_put_contents($this->optional, $param, FILE_APPEND);
-                break;
+                case self::ECHO_LOGGER:
+                    echo $param;
+                    break;
+                case self::FILE_LOGGER:
+                    \file_put_contents($this->optional, $param, FILE_APPEND);
+                    break;
             }
         }
     }

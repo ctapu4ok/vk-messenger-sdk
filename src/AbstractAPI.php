@@ -38,13 +38,10 @@ abstract class AbstractAPI extends CallbackApiHandler
                 $errors = [$time => $errors[$time] ?? 0];
                 $errors[$time]++;
                 if ($errors[$time] > 15 && (!$started || !$this->wrapper->getAPI()->isInit())) {
-                    $this->wrapper->logger('More than 10 errors per second, exiting!', Logger::FATAL_ERROR);
+                    $this->wrapper->getAPI()->logger->logger('More than 10 errors per second, exiting!', Logger::FATAL_ERROR);
                     return;
                 }
-                echo $e;
-
-                $this->wrapper->logger((string) $e, Logger::FATAL_ERROR);
-                $this->wrapper->getAPI()->report("Surfaced: $e");
+                $this->wrapper->getAPI()->logger->logger((string) $e, Logger::FATAL_ERROR);
             }
         );
 

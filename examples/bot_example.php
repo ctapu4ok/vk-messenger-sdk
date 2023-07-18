@@ -5,26 +5,40 @@ if (file_exists('vendor/autoload.php')) {
 }
 
 use ctapu4ok\VkMessengerSdk\EventHandler;
+use ctapu4ok\VkMessengerSdk\Logger;
 use ctapu4ok\VkMessengerSdk\Settings;
 
 enum Params
 {
-    public const API_HASH = 'vk1.a.Qyw6zef4YQZmosPX5Jj......';
-    public const GROUP_ID = 123456;
-    public const CONFIRM_STRING = 'secret_string';
+    public const API_HASH = 'vk1.a.Qyw6zef4YQZmosX......';
+    public const GROUP_ID = 12345678;
+    public const CONFIRM_STRING = 'c683e9eb12cebb...........';
 
     public const VERSION = '5.81';
 }
 
 class MessengerEvent extends EventHandler
 {
+
+    public function onStart(): void
+    {
+        $this->wrapper->getAPI()->logger('The event handler was initialized');
+    }
+
     public function messageEvent(int $group_id, ?string $secret, array $object): void
     {
-        echo 'New message event received'.PHP_EOL;
+        $this->wrapper->getAPI()->logger([
+            'New message event received', $object
+        ], Logger::LOGGER_CALLABLE);
     }
-    public function messageNew($group_id, $secret, $object)
+
+    public function messageNew(int $group_id, ?string $secret, array $object): void
     {
-        echo 'New message received'.PHP_EOL;
+        $this->wrapper->getAPI()->logger([
+            'New message received', $object
+        ], Logger::LOGGER_CALLABLE);
+
+
         /**
          * @var $this->wrapper Main wrapper
          * @var $this->wrapper->getAPI()->vk The main VK API methods src/API/Actions
@@ -37,9 +51,11 @@ class MessengerEvent extends EventHandler
         ]);
     }
 
-    public function messageTypingState(int $group_id, ?string $secret, array $object)
+    public function messageTypingState(int $group_id, ?string $secret, array $object): void
     {
-        echo 'The user started typing a message'.PHP_EOL;
+        $this->wrapper->getAPI()->logger([
+            'The user started typing a message', $object
+        ], Logger::LOGGER_CALLABLE);
     }
 }
 

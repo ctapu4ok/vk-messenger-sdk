@@ -4,6 +4,9 @@ namespace ctapu4ok\VkMessengerSdk;
 
 abstract class EventHandler extends AbstractAPI
 {
+    public function onStart(): void
+    {
+    }
     final public static function loop(Settings $settings)
     {
         $API = new API($settings);
@@ -17,12 +20,12 @@ abstract class EventHandler extends AbstractAPI
 
     public function initInternal(APIWrapper $wrapper): void
     {
-        echo "Initializing the application...".PHP_EOL;
         $this->wrapper = $wrapper;
+        $this->wrapper->getAPI()->logger->logger('Initializing the application');
     }
 
     public function startInternal(): void
     {
-        echo 'Application Start'.PHP_EOL;
+        $this->wrapper->getAPI()->logger->logger('Launching the application');
     }
 }

@@ -7,11 +7,12 @@
     "vk",
     "messager",
     "sdk",
-    "client"
+    "client",
+    "messenger"
   ],
   "type": "project",
   "homepage": "https://github.com/ctapu4ok/vk-messenger-sdk",
-  "license": "MIT",
+  "license": "AGPLv3",
   "authors": [
     {
       "name": "Shtepa Stanislav",
@@ -25,10 +26,12 @@
     "amphp/file": "^3",
     "amphp/mysql": "^3",
     "amphp/postgres": "^2",
+    "amphp/log": "^2",
     "amphp/redis": "^2",
     "psr/http-factory": "^1.0",
     "psr/log": "^3",
     "revolt/event-loop": "^1.0",
+    "webmozart/assert": "^1.11",
     "ext-curl": "*"
   },
   "autoload": {

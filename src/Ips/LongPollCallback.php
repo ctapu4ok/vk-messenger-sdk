@@ -2,10 +2,13 @@
 
 namespace ctapu4ok\VkMessengerSdk\Ips;
 
+use Amp\DeferredFuture;
+use Amp\Future;
 use ctapu4ok\VkMessengerSdk\Exceptions\TransportRequestException;
 use ctapu4ok\VkMessengerSdk\Exceptions\VKClientException;
 use ctapu4ok\VkMessengerSdk\Exceptions\VKLongPollServerKeyExpiredException;
 use ctapu4ok\VkMessengerSdk\Exceptions\VKLongPollServerTsException;
+use ctapu4ok\VkMessengerSdk\Tools\Utilities;
 
 class LongPollCallback
 {
@@ -49,6 +52,20 @@ class LongPollCallback
     ) {
         $this->api_client = $api_client;
         $this->handler = $this->api_client->getInstance();
+        if (\method_exists($this->handler, 'onStart')) {
+            $startDeferred = new DeferredFuture;
+            try {
+                $r = $this->handler->onStart();
+                if ($r instanceof \Generator) {
+                    $r = Utilities::consumeGenerator($r);
+                }
+                if ($r instanceof Future) {
+                    $r = $r->await();
+                }
+            } finally {
+                $startDeferred->complete();
+            }
+        }
         $this->http_client = new CurlHttpClient(static::CONNECTION_TIMEOUT);
         $this->wait = $wait;
         $this->group_id = $this->api_client->vk->getRequest()->getSettings()->getAppInfo()->getGroupId();

@@ -6,11 +6,12 @@ use ctapu4ok\VkMessengerSdk\Ips\Client;
 
 final class APIWrapper
 {
+    const RELEASE = '1.0.2';
     private Client $API;
 
     public function logger(mixed $param, int $level = Logger::NOTICE, string $file = ''): void
     {
-        ($this->API->logger ?? Logger::$default)->logger($param, $level, $file);
+        ($this->API->logger->logger ?? Logger::$default)->logger($param, $level, $file);
     }
 
     /**
