@@ -8,7 +8,9 @@
     "messager",
     "sdk",
     "client",
-    "messenger"
+    "messenger",
+    "bot",
+    "longpoll"
   ],
   "type": "project",
   "homepage": "https://github.com/ctapu4ok/vk-messenger-sdk",
