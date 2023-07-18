@@ -12,7 +12,7 @@
   ],
   "type": "project",
   "homepage": "https://github.com/ctapu4ok/vk-messenger-sdk",
-  "license": "AGPLv3",
+  "license": "AGPL-3.0-only",
   "authors": [
     {
       "name": "Shtepa Stanislav",
