@@ -75,7 +75,9 @@ final class Client
 
     private function setupDatabase(Settings $settings): void
     {
-        $this->db = $this->initDb($this->wrapper, $settings);
+        if ($settings->getDb() instanceof  DatabaseInterface) {
+            $this->db = $this->initDb($this->wrapper, $settings);
+        }
     }
 
     public function wakeup(Settings $settings, APIWrapper $wrapper)

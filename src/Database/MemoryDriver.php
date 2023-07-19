@@ -3,6 +3,7 @@
 namespace ctapu4ok\VkMessengerSdk\Database;
 
 use ctapu4ok\VkMessengerSdk\Interfaces\DatabaseInterface;
+use ctapu4ok\VkMessengerSdk\Settings\Database\Memory;
 
 class MemoryDriver
 {
@@ -10,7 +11,7 @@ class MemoryDriver
     public static function getInstance(DatabaseInterface $settings)
     {
         if (empty(self::$instance)) {
-            self::$instance = new static();
+            self::$instance = new Memory($settings);
         }
 
         return self::$instance;
