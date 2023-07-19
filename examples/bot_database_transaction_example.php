@@ -10,9 +10,9 @@ use ctapu4ok\VkMessengerSdk\Settings;
 
 enum Params
 {
-    public const API_HASH = 'vk1.a.Qyw6zef.....';
+    public const API_HASH = 'vk1.a.Qyw6zef4YQZmosPX5Jj0fdXjeqY-NtvA254jaqylHITXg5kXlzt1euXCpbxN04D6yI_zCK49XiFwTYM_u9L-GsRxmLAFDx6rRIYxuq20q-jrmBbkCC8i806DwSqdINQhUppidHuRctUeb4GQhhiRA2htVi11NSyBlJ7AuJqyp3nndJwwElY5f_3i-YrnITQ22mU2Qe3dlYpx6rbP5SbGKg';
     public const GROUP_ID = 221505952;
-    public const CONFIRM_STRING = 'c683e9eb12cebb65ce32346...';
+    public const CONFIRM_STRING = 'c683e9eb12cebb65ce323467d8ab32508e55c7a0ecfecc0a0e92e31d8785adf4';
 
     public const VERSION = '5.81';
 }
@@ -35,7 +35,7 @@ class MessengerEvent extends EventHandler
 
         $this->peer_id = $object['message']['peer_id'];
 
-        if (isset($this->transactions[$this->peer_id])) {
+        if (!isset($this->transactions[$this->peer_id])) {
             $this->testTransaction();
         }
 
@@ -57,19 +57,21 @@ class MessengerEvent extends EventHandler
 
     private function testTransaction()
     {
+        $this->transactions[$this->peer_id] = 1;
         \Amp\async(function () {
             $check = 1000;
             $transaction = $this->wrapper->getAPI()->db->beginTransaction();
-            for ($i=0; $i<1000000; $i++) {
+            for ($i = 0; $i < 32000; $i++) {
                 if ($check == $i) {
                     $this->wrapper->getAPI()->logger([
-                        'Point: '.$i.' Memory usage: '.$this->convert(memory_get_usage(true))
+                        'Point: ' . $i . ' Memory usage: ' . $this->convert(memory_get_usage(true))
                     ], Logger::LEVEL_ERROR);
                     $check = $check * 2;
                 }
-                $transaction->execute("INSERT INTO `test` (`text`) VALUES (?)", ['This is STRING: '.$i]);
+                $transaction->execute("INSERT INTO `test` (`text`) VALUES (?)", ['This is STRING: ' . $i]);
             }
             $transaction->commit();
+            unset($this->transactions[$this->peer_id]);
         });
     }
 
@@ -86,12 +88,6 @@ $Settings->getAppInfo()->setApiHash(Params::API_HASH);
 $Settings->getAppInfo()->setGroupId(Params::GROUP_ID);
 $Settings->getAppInfo()->setConfirmString(Params::CONFIRM_STRING);
 $Settings->getAppInfo()->setApiVersion(Params::VERSION);
-
-// we say to output logs to a file (without console)
-//$Settings->getLogger()
-//    ->setType(Logger::LOGGER_FILE)
-//    ->setExtra('log.file')
-//    ->setMaxSize(50*1024*1024);
 
 $Settings->setDb(
     (new Settings\Database\Mysql())
