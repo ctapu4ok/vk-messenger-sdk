@@ -1,38 +1,37 @@
-# VK Messenger SDK PHP LongPoll клиент
+# VK Messenger SDK a PHP LongPoll VK messenger client
 
-[Instructions in English](https://github.com/ctapu4ok/vk-messenger-sdk/README_EN.md)
+[Инструкция на Русском](https://github.com/ctapu4ok/vk-messenger-sdk/README_RU.md)
 
-**VK Messenger SDK** представляет собой систему, которая позволяет взаимодействовать с API ВКонтакте через LongPoll в асинхронном режиме.
+**VK Messenger SDK** is a system that allows you to interact with the VK API via LongPoll in asynchronous mode.
 
-LongPoll - это механизм, предоставляемый API ВКонтакте, который позволяет получать обновления из социальной сети в режиме реального времени. 
+LongPoll is a mechanism provided by the VK API that allows you to receive updates from the social network in real time. To interact with the LongPoll API, you need to create a connection to the VK server and wait for new events to appear.
 
-Для реализации асинхронного режима работы проект использует механизм обратных вызовов (callback / event loop). Когда происходит новое событие в системе ВКонтакте, обработчик получает его и вызывает соответствующий обратный вызов, который пользователь предварительно определил. Таким образом, пользователь может создать свою логику обработки полученных событий.
+To implement asynchronous operation mode, we use the callback mechanism. When a new event occurs in the VK system, our project receives it and calls the corresponding callback, which the user has previously defined. Thus, the user can create his own logic for processing received events, for example, to send notifications or perform other actions.
 
-Библиотека PHP для взаимодействия с VK API, включающая [LongPoll Server](https://dev.vk.com/method/groups.getLongPollServer) и API методы
+PHP library for VK API interaction, includes [LongPoll Server](https://dev.vk.com/method/groups.getLongPollServer) and API methods
 
-Используемая версия ВК API [version](https://vk.com/dev/versions) 5.81
+It uses VK LongPoll API [version](https://vk.com/dev/versions) 5.81
 
 
 [![Packagist](https://img.shields.io/packagist/v/ctapu4ok/vk-messenger-sdk.svg)](https://packagist.org/packages/ctapu4ok/vk-messenger-sdk)
 
-## 1. Предусловия
+## 1. Prerequisites
 
 * PHP 8.2^
 
-## 2. Установка
+## 2. Installation
 
-The VK Messenger SDK можно установить с помощью Composer, выполнив следующую команду:
+The VK Messenger SDK can be installed using Composer by running the following command:
 
 ```sh
 composer require ctapu4ok/vk-messenger-sdk
 ```
 
-## 3. Примеры
+## 3. Example
+>[More examples here](https://github.com/ctapu4ok/vk-messenger-sdk/tree/master/examples)
+ 
+## 4. Bot example
 
->[Больше примеров тут](https://github.com/ctapu4ok/vk-messenger-sdk/tree/master/examples)
-
-
-## 4. Пример бота
 ```php
 <?php declare(strict_types=1);
 
@@ -117,4 +116,5 @@ $Settings->getAppInfo()->setApiVersion(Params::VERSION);
 //);
 
 MessengerEvent::loop($Settings);
+
 ```

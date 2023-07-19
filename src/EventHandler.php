@@ -2,6 +2,8 @@
 
 namespace ctapu4ok\VkMessengerSdk;
 
+use ctapu4ok\VkMessengerSdk\Database\Traits\DbProperties;
+
 abstract class EventHandler extends AbstractAPI
 {
     public function onStart(): void

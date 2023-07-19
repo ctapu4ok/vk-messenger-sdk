@@ -2,7 +2,9 @@
 
 namespace ctapu4ok\VkMessengerSdk;
 
+use ctapu4ok\VkMessengerSdk\Interfaces\DatabaseInterface;
 use ctapu4ok\VkMessengerSdk\Settings\AppInfo;
+use ctapu4ok\VkMessengerSdk\Settings\Database\Memory;
 use ctapu4ok\VkMessengerSdk\Settings\Logger;
 
 final class Settings extends SettingsAbstract
@@ -14,6 +16,8 @@ final class Settings extends SettingsAbstract
 
     protected Logger $logger;
 
+    protected DatabaseInterface $db;
+
     /**
      * Constructor
      */
@@ -21,6 +25,7 @@ final class Settings extends SettingsAbstract
     {
         $this->appInfo = new AppInfo();
         $this->logger = new Logger();
+        $this->db = new Memory();
     }
 
     /**
@@ -54,5 +59,21 @@ final class Settings extends SettingsAbstract
     public function setLogger(Logger $logger): void
     {
         $this->logger = $logger;
+    }
+
+    /**
+     * @return DatabaseInterface
+     */
+    public function getDb(): DatabaseInterface
+    {
+        return $this->db;
+    }
+
+    /**
+     * @param DatabaseInterface $db
+     */
+    public function setDb(DatabaseInterface $db): void
+    {
+        $this->db = $db;
     }
 }
