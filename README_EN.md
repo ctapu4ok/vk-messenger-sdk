@@ -92,6 +92,25 @@ class MessengerEvent extends EventHandler
             'The user started typing a message', $object
         ], Logger::LOGGER_CALLABLE);
     }
+    
+    /**
+    * Cron example  
+    */ 
+    #[Cron(period: 5)]
+    public function testingCron5()
+    {
+        $this->wrapper->getAPI()->logger([
+            'THIS IS CRON 5!!!!!!'
+        ], Logger::LOGGER_CALLABLE);
+    }
+
+    #[Cron(period: 1)]
+    public function testingSome1()
+    {
+        $this->wrapper->getAPI()->logger([
+            'THIS IS CRON 1.0!!!!!!'
+        ], Logger::LOGGER_CALLABLE);
+    }
 }
 
 $Settings = new Settings();
