@@ -1,6 +1,6 @@
 # VK Messenger SDK PHP LongPoll клиент
 
-[Instructions in English](https://github.com/ctapu4ok/vk-messenger-sdk/README_EN.md)
+[Instructions in English](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/README_EN.md)
 
 **VK Messenger SDK** представляет собой систему, которая позволяет взаимодействовать с API ВКонтакте через LongPoll в асинхронном режиме.
 
