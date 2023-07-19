@@ -4,6 +4,7 @@ namespace ctapu4ok\VkMessengerSdk\Tools;
 
 use Amp\DeferredFuture;
 use Amp\SignalException;
+use ctapu4ok\VkMessengerSdk\APIWrapper;
 use ctapu4ok\VkMessengerSdk\Exceptions\Exception;
 use Revolt\EventLoop;
 use Throwable;
@@ -57,6 +58,8 @@ abstract class Utilities extends AsyncUtilities
         if (!\defined('AMP_WORKER')) {
             \define('AMP_WORKER', 1);
         }
+        self::$revision = APIWrapper::RELEASE;
+
         if (!self::$initedLight) {
             \set_error_handler(Exception::exceptionErrorHandler(...));
             \set_exception_handler(Exception::exceptionHandler(...));
