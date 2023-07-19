@@ -40,6 +40,11 @@ trait Events
         $this->startUpdateSystem();
     }
 
+    public function getEventHandler()
+    {
+        return $this->handler;
+    }
+
     /**
      * @return mixed
      */

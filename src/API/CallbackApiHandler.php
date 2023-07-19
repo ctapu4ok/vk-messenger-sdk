@@ -223,6 +223,7 @@ abstract class CallbackApiHandler
 
 
     /**
+     * Редактирует заказ.
      * @param int $group_id
      * @param string|null $secret
      * @param array $object

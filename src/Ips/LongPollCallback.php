@@ -33,9 +33,9 @@ class LongPollCallback
     protected const ERROR_CODE_INCORRECT_TS_VALUE = 1;
     protected const ERROR_CODE_TOKEN_EXPIRED = 2;
 
-    protected const CONNECTION_TIMEOUT = 10;
+    protected const CONNECTION_TIMEOUT = 1;
     protected const HTTP_STATUS_CODE_OK = 200;
-    protected const DEFAULT_WAIT = 10;
+    protected const DEFAULT_WAIT = 1;
 
     protected $api_client;
     protected $access_token;
@@ -62,6 +62,19 @@ class LongPollCallback
                 if ($r instanceof Future) {
                     $r = $r->await();
                 }
+            } finally {
+                $startDeferred->complete();
+            }
+        }
+
+        if (\method_exists($this->handler, 'onCron')) {
+            $startDeferred = new DeferredFuture;
+            try {
+                $r = $this->handler->onCron();
+                if ($r instanceof \Generator) {
+                    $r = Utilities::consumeGenerator($r);
+                }
+
             } finally {
                 $startDeferred->complete();
             }
