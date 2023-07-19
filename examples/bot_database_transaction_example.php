@@ -10,9 +10,9 @@ use ctapu4ok\VkMessengerSdk\Settings;
 
 enum Params
 {
-    public const API_HASH = 'vk1.a.Qyw6zef4YQZmosPX5Jj0fdXjeqY-NtvA254jaqylHITXg5kXlzt1euXCpbxN04D6yI_zCK49XiFwTYM_u9L-GsRxmLAFDx6rRIYxuq20q-jrmBbkCC8i806DwSqdINQhUppidHuRctUeb4GQhhiRA2htVi11NSyBlJ7AuJqyp3nndJwwElY5f_3i-YrnITQ22mU2Qe3dlYpx6rbP5SbGKg';
-    public const GROUP_ID = 221505952;
-    public const CONFIRM_STRING = 'c683e9eb12cebb65ce323467d8ab32508e55c7a0ecfecc0a0e92e31d8785adf4';
+    public const API_HASH = 'vk1.a.Qyw6zef4YQZmos...';
+    public const GROUP_ID = 12345678;
+    public const CONFIRM_STRING = 'c683e9eb12cebb65ce...';
 
     public const VERSION = '5.81';
 }
