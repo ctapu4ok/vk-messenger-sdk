@@ -28,6 +28,7 @@ composer require ctapu4ok/vk-messenger-sdk
 ```
 
 ## 3. Example
+
 >[More examples here](https://github.com/ctapu4ok/vk-messenger-sdk/tree/master/examples)
  
 ## 4. Bot example
