@@ -33,8 +33,9 @@ composer require ctapu4ok/vk-messenger-sdk
 [Пример простого бота](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_example.php)
 
 #### 1. Сообщения
-2. [Отправление сообщения с кнопками](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_buttons_example.php)
-3. [Имитация набора текста ботом](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_typing_message_example.php)
+1. [Отправление сообщения с кнопками](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_buttons_example.php)
+2. [Имитация набора текста ботом](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_typing_message_example.php)
+3. [Отправка сообщений с вложенными фото](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_send_photo_to_chat.php)
 
 #### 2. Группы
 1. [Получения информации о группе](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_groups_getById_example.php)
