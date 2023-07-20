@@ -28,8 +28,14 @@ composer require ctapu4ok/vk-messenger-sdk
 ```
 
 ## 3. Примеры
+1. [Пример простого бота](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_example.php)
+2. [Отправление сообщения с кнопками](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_buttons_example.php)
+3. [Имитация набора текста ботом](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_typing_message_example.php)
+4. [Выполнение SQL запроса](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_database_query_example.php)
+5. [Выполнение транзакций](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_database_transaction_example.php)
+6. [Пример с модулем Logger](https://github.com/ctapu4ok/vk-messenger-sdk/blob/master/examples/bot_logger_example.php)
 
->[Больше примеров тут](https://github.com/ctapu4ok/vk-messenger-sdk/tree/master/examples)
+>[Больше примеров](https://github.com/ctapu4ok/vk-messenger-sdk/tree/master/examples)
 
 
 ## 4. Пример бота
