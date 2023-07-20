@@ -23,7 +23,7 @@ use ctapu4ok\VkMessengerSdk\Exceptions\VKClientException;
 class Photos implements ActionInterface
 {
     /**
-     * @param Request $request 
+     * @param Request $request
      */
     private Request $request;
 
@@ -967,5 +967,15 @@ class Photos implements ActionInterface
     {
         return $this->request->post('photos.search', $params);
     }
-}
 
+    /**
+     * @param array $params
+     * @return mixed
+     * @throws VKApiException
+     * @throws VKClientException
+     */
+    public function uploadPhotoToServer(array $params = []): mixed
+    {
+        return $this->request->upload($params['server'], 'photo', $params['photo']);
+    }
+}
