@@ -3,7 +3,6 @@
 namespace ctapu4ok\VkMessengerSdk;
 
 use ctapu4ok\VkMessengerSdk\Attributes\Cron;
-use ctapu4ok\VkMessengerSdk\Database\Traits\DbProperties;
 use Revolt\EventLoop;
 
 abstract class EventHandler extends AbstractAPI

@@ -10,7 +10,7 @@ use ctapu4ok\VkMessengerSdk\Settings;
 
 enum Params
 {
-    public const API_HASH = 'vk1.a.Qyw6zef4YQZmos...';
+    public const API_HASH = 'vk1.a.GLlGmwNDe1iuRjb0aR...';
     public const GROUP_ID = 12345678;
     public const CONFIRM_STRING = 'c683e9eb12cebb65ce...';
 
@@ -61,16 +61,24 @@ class MessengerEvent extends EventHandler
         \Amp\async(function () {
             $check = 1000;
             $transaction = $this->wrapper->getAPI()->db->beginTransaction();
-            for ($i = 0; $i < 32000; $i++) {
-                if ($check == $i) {
-                    $this->wrapper->getAPI()->logger([
-                        'Point: ' . $i . ' Memory usage: ' . $this->convert(memory_get_usage(true))
-                    ], Logger::LEVEL_ERROR);
-                    $check = $check * 2;
+            try {
+                for ($i = 0; $i < 15500; $i++) {
+                    if ($check == $i) {
+                        $this->wrapper->getAPI()->logger([
+                            'Point: ' . $i . ' Memory usage: ' . $this->convert(memory_get_usage(true))
+                        ], Logger::LEVEL_ERROR);
+                        $check = $check * 2;
+                    }
+                    $transaction->execute("INSERT INTO `test` (`text`) VALUES (?)", [$i]);
                 }
-                $transaction->execute("INSERT INTO `test` (`text`) VALUES (?)", ['This is STRING: ' . $i]);
+                $transaction->commit();
+            } catch (\Amp\Sql\SqlException|
+                \Amp\Sql\QueryError|
+                \Amp\Sql\TransactionError $e) {
+                $transaction->rollback();
+                unset($this->transactions[$this->peer_id]);
+                $this->wrapper->getAPI()->logger($e->getMessage(), Logger::LEVEL_ERROR);
             }
-            $transaction->commit();
             unset($this->transactions[$this->peer_id]);
         });
     }
@@ -82,19 +90,27 @@ class MessengerEvent extends EventHandler
     }
 }
 
-$Settings = new Settings();
+/**
+ * @return void
+ */
+function extracted(): void
+{
+    $Settings = new Settings();
 
-$Settings->getAppInfo()->setApiHash(Params::API_HASH);
-$Settings->getAppInfo()->setGroupId(Params::GROUP_ID);
-$Settings->getAppInfo()->setConfirmString(Params::CONFIRM_STRING);
-$Settings->getAppInfo()->setApiVersion(Params::VERSION);
+    $Settings->getAppInfo()->setApiHash(Params::API_HASH);
+    $Settings->getAppInfo()->setGroupId(Params::GROUP_ID);
+    $Settings->getAppInfo()->setConfirmString(Params::CONFIRM_STRING);
+    $Settings->getAppInfo()->setApiVersion(Params::VERSION);
 
-$Settings->setDb(
-    (new Settings\Database\Mysql())
-        ->setUri('127.0.0.1:3306')
-        ->setDatabase('vk_messenger')
-        ->setUsername('root')
-        ->setPassword('root')
-);
+    $Settings->setDb(
+        (new Settings\Database\Mysql())
+            ->setUri('127.0.0.1:3306')
+            ->setDatabase('vk_messenger')
+            ->setUsername('root')
+            ->setPassword('root')
+    );
 
-MessengerEvent::loop($Settings);
+    MessengerEvent::loop($Settings);
+}
+
+extracted();
