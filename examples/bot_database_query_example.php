@@ -60,4 +60,24 @@ class MessengerEvent extends EventHandler
     }
 }
 
+function extracted(): void
+{
+    $Settings = new Settings();
+
+    $Settings->getAppInfo()->setApiHash(Params::API_HASH);
+    $Settings->getAppInfo()->setGroupId(Params::GROUP_ID);
+    $Settings->getAppInfo()->setConfirmString(Params::CONFIRM_STRING);
+    $Settings->getAppInfo()->setApiVersion(Params::VERSION);
+
+    $Settings->setDb(
+        (new Settings\Database\Mysql())
+            ->setUri('127.0.0.1:3306')
+            ->setDatabase('vk_messenger')
+            ->setUsername('root')
+            ->setPassword('root')
+    );
+
+    MessengerEvent::loop($Settings);
+}
+
 extracted();

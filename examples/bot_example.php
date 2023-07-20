@@ -59,25 +59,31 @@ class MessengerEvent extends EventHandler
     }
 }
 
-$Settings = new Settings();
+function extracted(): void
+{
+    $Settings = new Settings();
 
-$Settings->getAppInfo()->setApiHash(Params::API_HASH);
-$Settings->getAppInfo()->setGroupId(Params::GROUP_ID);
-$Settings->getAppInfo()->setConfirmString(Params::CONFIRM_STRING);
-$Settings->getAppInfo()->setApiVersion(Params::VERSION);
+    $Settings->getAppInfo()->setApiHash(Params::API_HASH);
+    $Settings->getAppInfo()->setGroupId(Params::GROUP_ID);
+    $Settings->getAppInfo()->setConfirmString(Params::CONFIRM_STRING);
+    $Settings->getAppInfo()->setApiVersion(Params::VERSION);
 
-// we say to output logs to a file (without console)
-//$Settings->getLogger()
-//    ->setType(Logger::LOGGER_FILE)
-//    ->setExtra('log.file')
-//    ->setMaxSize(50*1024*1024);
-// Database settings
-//$Settings->setDb(
-//    (new Settings\Database\Mysql())
-//    ->setUri('127.0.0.1:3306')
-//    ->setDatabase('vk_messenger')
-//    ->setUsername('root')
-//    ->setPassword('root')
-//);
+    // we say to output logs to a file (without console)
+    //$Settings->getLogger()
+    //    ->setType(Logger::LOGGER_FILE)
+    //    ->setExtra('log.file')
+    //    ->setMaxSize(50*1024*1024);
 
-MessengerEvent::loop($Settings);
+    // Database settings
+    //$Settings->setDb(
+    //    (new Settings\Database\Mysql())
+    //    ->setUri('127.0.0.1:3306')
+    //    ->setDatabase('vk_messenger')
+    //    ->setUsername('root')
+    //    ->setPassword('root')
+    //);
+
+    MessengerEvent::loop($Settings);
+}
+
+extracted();

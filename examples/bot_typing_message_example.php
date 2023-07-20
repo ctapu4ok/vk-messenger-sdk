@@ -53,11 +53,16 @@ class MessengerEvent extends EventHandler
     }
 }
 
-$Settings = new Settings();
+function extracted(): void
+{
+    $Settings = new Settings();
 
-$Settings->getAppInfo()->setApiHash(Params::API_HASH);
-$Settings->getAppInfo()->setGroupId(Params::GROUP_ID);
-$Settings->getAppInfo()->setConfirmString(Params::CONFIRM_STRING);
-$Settings->getAppInfo()->setApiVersion(Params::VERSION);
+    $Settings->getAppInfo()->setApiHash(Params::API_HASH);
+    $Settings->getAppInfo()->setGroupId(Params::GROUP_ID);
+    $Settings->getAppInfo()->setConfirmString(Params::CONFIRM_STRING);
+    $Settings->getAppInfo()->setApiVersion(Params::VERSION);
 
-MessengerEvent::loop($Settings);
+    MessengerEvent::loop($Settings);
+}
+
+extracted();
