@@ -25,7 +25,7 @@ class MessengerEvent extends EventHandler
 {
     public function messageNew(int $group_id, ?string $secret, array $object): void
     {
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'New message received: ', $object
         ], Logger::LOGGER_CALLABLE);
 
@@ -41,7 +41,7 @@ class MessengerEvent extends EventHandler
             'screen_name' => 'Короткое имя сообщества'
         ]);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'Getting Message ID: ', $groupInfo
         ], Logger::LOGGER_CALLABLE);
     }

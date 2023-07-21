@@ -21,7 +21,7 @@ class MessengerEvent extends EventHandler
 {
     public function messageEvent(int $group_id, ?string $secret, array $object)
     {
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'Button clicked: ', $object
         ], Logger::LOGGER_CALLABLE);
 
@@ -33,7 +33,7 @@ class MessengerEvent extends EventHandler
     }
     public function messageNew(int $group_id, ?string $secret, array $object): void
     {
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'New message received: ', $object
         ], Logger::LOGGER_CALLABLE);
 
@@ -95,7 +95,7 @@ class MessengerEvent extends EventHandler
             ])
         ]);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'Getting Message ID: ', $msg_id
         ], Logger::LOGGER_CALLABLE);
     }

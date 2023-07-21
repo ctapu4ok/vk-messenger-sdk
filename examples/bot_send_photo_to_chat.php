@@ -24,12 +24,12 @@ class MessengerEvent extends EventHandler
 {
     public function onStart(): void
     {
-        $this->wrapper->getAPI()->logger('The event handler was initialized');
+        $this->getAPI()->logger('The event handler was initialized');
     }
 
     public function messageNew(int $group_id, ?string $secret, array $object): void
     {
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'New message received: ', $object
         ], Logger::LOGGER_CALLABLE);
 
@@ -54,7 +54,7 @@ class MessengerEvent extends EventHandler
             'photo'=> $uploadedPhoto['photo'],
             'hash' => $uploadedPhoto['hash']
         ]);
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'Getting Message ID: ', $savedMessage
         ], Logger::LOGGER_CALLABLE);
         /**
@@ -69,7 +69,7 @@ class MessengerEvent extends EventHandler
             'attachment' => 'photo'.$savedMessage[0]['owner_id'].'_'.$savedMessage[0]['id']
         ]);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'Getting Message ID: ', $msg_id
         ], Logger::LOGGER_CALLABLE);
     }

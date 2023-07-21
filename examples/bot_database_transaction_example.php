@@ -25,7 +25,7 @@ class MessengerEvent extends EventHandler
 
     public function messageNew(int $group_id, ?string $secret, array $object): void
     {
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'New message received: '.$object['message']['id']
         ], Logger::LOGGER_CALLABLE);
 
@@ -49,7 +49,7 @@ class MessengerEvent extends EventHandler
             'message' => 'Hello World!'
         ]);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'Getting Message ID: ', $msg_id
         ], Logger::LOGGER_CALLABLE);
     }
@@ -59,11 +59,11 @@ class MessengerEvent extends EventHandler
         $this->transactions[$this->peer_id] = 1;
         \Amp\async(function () {
             $check = 1000;
-            $transaction = $this->wrapper->getAPI()->db->beginTransaction();
+            $transaction = $this->getAPI()->db->beginTransaction();
             try {
                 for ($i = 0; $i < 15500; $i++) {
                     if ($check == $i) {
-                        $this->wrapper->getAPI()->logger([
+                        $this->getAPI()->logger([
                             'Point: ' . $i . ' Memory usage: ' . $this->convert(memory_get_usage(true))
                         ], Logger::LEVEL_ERROR);
                         $check = $check * 2;
@@ -76,7 +76,7 @@ class MessengerEvent extends EventHandler
                 \Amp\Sql\TransactionError $e) {
                 $transaction->rollback();
                 unset($this->transactions[$this->peer_id]);
-                $this->wrapper->getAPI()->logger($e->getMessage(), Logger::LEVEL_ERROR);
+                $this->getAPI()->logger($e->getMessage(), Logger::LEVEL_ERROR);
             }
             unset($this->transactions[$this->peer_id]);
         });

@@ -23,7 +23,7 @@ class MessengerEvent extends EventHandler
 
     public function messageNew(int $group_id, ?string $secret, array $object): void
     {
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'New message received: '.$object['message']['id']
         ], Logger::LOGGER_CALLABLE);
 
@@ -33,12 +33,12 @@ class MessengerEvent extends EventHandler
 
         $this->peer_id = $object['message']['peer_id'];
 
-        $statement = $this->wrapper->getAPI()->db->prepare('SELECT * FROM test WHERE id = :id');
+        $statement = $this->getAPI()->db->prepare('SELECT * FROM test WHERE id = :id');
 
         $result = $statement->execute(['id' => $this->peer_id]);
 
         foreach ($result as $item) {
-            $this->wrapper->getAPI()->logger([
+            $this->getAPI()->logger([
                 'Item '.$item['id']
             ], Logger::LOGGER_CALLABLE);
         }
@@ -53,7 +53,7 @@ class MessengerEvent extends EventHandler
             'message' => 'Hello World!'
         ]);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'Getting Message ID: ', $msg_id
         ], Logger::LOGGER_CALLABLE);
     }

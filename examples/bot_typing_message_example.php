@@ -28,7 +28,7 @@ class MessengerEvent extends EventHandler
      */
     public function messageTypingState(int $group_id, ?string $secret, array $object): void
     {
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'The user started typing a message', $object
         ], Logger::LOGGER_CALLABLE);
 

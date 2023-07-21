@@ -21,17 +21,17 @@ class MessengerEvent extends EventHandler
 {
     public function onStart(): void
     {
-        $this->wrapper->getAPI()->logger('The event handler was initialized');
+        $this->getAPI()->logger('The event handler was initialized');
     }
     public function messageEvent(int $group_id, ?string $secret, array $object): void
     {
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'New message event received', $object
         ], Logger::LOGGER_CALLABLE);
     }
     public function messageNew(int $group_id, ?string $secret, array $object): void
     {
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'New message received: ', $object
         ], Logger::LOGGER_CALLABLE);
 
@@ -45,14 +45,14 @@ class MessengerEvent extends EventHandler
             'message' => 'Hello World!'
         ]);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'Getting Message ID: ', $msg_id
         ], Logger::LOGGER_CALLABLE);
     }
 
     public function messageTypingState(int $group_id, ?string $secret, array $object): void
     {
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'The user started typing a message', $object
         ], Logger::LOGGER_CALLABLE);
     }
