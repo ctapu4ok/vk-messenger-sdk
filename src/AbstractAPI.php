@@ -5,6 +5,7 @@ namespace ctapu4ok\VkMessengerSdk;
 use Amp\Future\UnhandledFutureError;
 use Amp\SignalException;
 use ctapu4ok\VkMessengerSdk\API\CallbackApiHandler;
+use ctapu4ok\VkMessengerSdk\Ips\Client;
 use Revolt\EventLoop;
 
 abstract class AbstractAPI extends CallbackApiHandler
@@ -83,5 +84,21 @@ abstract class AbstractAPI extends CallbackApiHandler
     public function __sleep(): array
     {
         return [];
+    }
+
+    /**
+     * @return API\VKApiClient
+     */
+    public function getVk(): API\VKApiClient
+    {
+        return $this->wrapper->getAPI()->vk;
+    }
+
+    /**
+     * @return Client
+     */
+    public function getAPI(): Client
+    {
+        return $this->wrapper->getAPI();
     }
 }

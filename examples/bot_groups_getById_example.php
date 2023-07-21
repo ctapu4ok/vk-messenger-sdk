@@ -25,15 +25,14 @@ class MessengerEvent extends EventHandler
 {
     public function messageNew(int $group_id, ?string $secret, array $object): void
     {
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'New message received: ', $object
         ], Logger::LOGGER_CALLABLE);
 
         /**
-         * @var $this->wrapper Main wrapper
-         * @var $this->wrapper->getAPI()->vk The main VK API methods src/API/Actions
+         * @var $this->getVk() The main VK API methods src/API/Actions
          */
-        $groupInfo = $this->wrapper->getAPI()->vk->groups()->getById([
+        $groupInfo = $this->getVk()->groups()->getById([
             'group_ids' => [1234567, 7654321],
             //'group_id' => 1234567
             'fields' => [
@@ -93,7 +92,7 @@ class MessengerEvent extends EventHandler
             ]
         ]);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'Getting Message ID: ', $groupInfo
         ], Logger::LOGGER_CALLABLE);
     }

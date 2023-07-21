@@ -52,6 +52,7 @@ class LongPollCallback
     ) {
         $this->api_client = $api_client;
         $this->handler = $this->api_client->getInstance();
+
         if (\method_exists($this->handler, 'onStart')) {
             $startDeferred = new DeferredFuture;
             try {
@@ -116,6 +117,7 @@ class LongPollCallback
             $this->last_ts = $response[static::EVENTS_TS];
         } catch (VKLongPollServerKeyExpiredException|VKClientException $e) {
             $this->server = $this->getLongPollServer();
+            return 0;
         }
         return $this->last_ts;
     }

@@ -28,12 +28,12 @@ class MessengerEvent extends EventHandler
      */
     public function messageTypingState(int $group_id, ?string $secret, array $object): void
     {
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'The user started typing a message', $object
         ], Logger::LOGGER_CALLABLE);
 
 
-        $user = $this->wrapper->getAPI()->vk->users()->get([
+        $user = $this->getVk()->users()->get([
             'user_ids' => $object['from_id'],
             'fields' => 'id,first_name,last_name,about,activities,bdate,city,country,sex'
         ]);
@@ -46,7 +46,7 @@ class MessengerEvent extends EventHandler
         /**
          * The bot pretends to typing a message
          */
-        $this->wrapper->getAPI()->vk->messages()->setActivity([
+        $this->getVk()->messages()->setActivity([
             'user_id' => $user[0]['id'],
             'type' => 'typing',
         ]);

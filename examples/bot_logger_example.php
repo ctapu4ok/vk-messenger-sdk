@@ -25,43 +25,43 @@ class MessengerEvent extends EventHandler
             return;
         }
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'LOGGER_CALLABLE: '.$object['message']['id']
         ], Logger::LOGGER_CALLABLE);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'LOGGER_FILE: '.$object['message']['id']
         ], Logger::LOGGER_FILE);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'LOGGER_ECHO: '.$object['message']['id']
         ], Logger::LOGGER_ECHO);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'LOGGER_DEFAULT: '.$object['message']['id']
         ], Logger::LOGGER_DEFAULT);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'LEVEL_NOTICE: '.$object['message']['id']
         ], Logger::LEVEL_NOTICE);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'LEVEL_ERROR: '.$object['message']['id']
         ], Logger::LEVEL_ERROR);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'LEVEL_FATAL: '.$object['message']['id']
         ], Logger::LEVEL_FATAL);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'LEVEL_VERBOSE: '.$object['message']['id']
         ], Logger::LEVEL_VERBOSE);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'LEVEL_WARNING: '.$object['message']['id']
         ], Logger::LEVEL_WARNING);
 
-        $this->wrapper->getAPI()->logger([
+        $this->getAPI()->logger([
             'LEVEL_ULTRA_VERBOSE: '.$object['message']['id']
         ], Logger::LEVEL_ULTRA_VERBOSE);
     }
