@@ -32,10 +32,9 @@ class MessengerEvent extends EventHandler
         /**
          *
          * Полный список параметров тут https://dev.vk.com/method/groups.edit
-         * @var $this->wrapper Main wrapper
-         * @var $this->wrapper->getAPI()->vk The main VK API methods src/API/Actions
+         * @var $this->getVk() The main VK API methods src/API/Actions
          */
-        $groupInfo = $this->wrapper->getAPI()->vk->groups()->edit([
+        $groupInfo = $this->getVk()->groups()->edit([
             'group_id' => 1234567,
             'title' => 'Название сообщества.',
             'description' => 'Описание сообщества.',

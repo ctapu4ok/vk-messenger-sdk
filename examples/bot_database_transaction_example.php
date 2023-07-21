@@ -40,10 +40,9 @@ class MessengerEvent extends EventHandler
         }
 
         /**
-         * @var $this->wrapper Main wrapper
-         * @var $this->wrapper->getAPI()->vk The main VK API methods src/API/Actions
+         * @var $this->getVk() The main VK API methods src/API/Actions
          */
-        $msg_id = $this->wrapper->getAPI()->vk->messages()->send([
+        $msg_id = $this->getVk()->messages()->send([
             'user_id' => $object['message']['from_id'],
             'random_id' => floor(microtime(true) * 1000),
             'peer_id' => $object['message']['peer_id'],

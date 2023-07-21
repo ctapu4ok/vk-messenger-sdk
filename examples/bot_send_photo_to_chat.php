@@ -36,22 +36,22 @@ class MessengerEvent extends EventHandler
         /**
          * Получаем сервер для загрузки
          */
-        $photoAlbums = $this->wrapper->getAPI()->vk->photos()->getMessagesUploadServer([
+        $photoAlbums = $this->getVk()->photos()->getMessagesUploadServer([
             'peer_id' => $object['message']['peer_id']
         ]);
         /**
          * Загружаем фотографию на сервер
          */
-        $uploadedPhoto = $this->wrapper->getAPI()->vk->photos()->uploadPhotoToServer([
+        $uploadedPhoto = $this->getVk()->photos()->uploadPhotoToServer([
             'server' => $photoAlbums['upload_url'],
             'photo' => __DIR__.'/../assets/vk-messenger-logo.jpg'
         ]);
         /**
          * Сохраняем фото в сообщении
          */
-        $savedMessage = $this->wrapper->getAPI()->vk->photos()->saveMessagesPhoto([
+        $savedMessage = $this->getVk()->photos()->saveMessagesPhoto([
             'server' => $uploadedPhoto['server'],
-            'photo'=>$uploadedPhoto['photo'],
+            'photo'=> $uploadedPhoto['photo'],
             'hash' => $uploadedPhoto['hash']
         ]);
         $this->wrapper->getAPI()->logger([
@@ -59,10 +59,9 @@ class MessengerEvent extends EventHandler
         ], Logger::LOGGER_CALLABLE);
         /**
          * Отправляем сообщение
-         * @var $this->wrapper Main wrapper
-         * @var $this->wrapper->getAPI()->vk The main VK API methods src/API/Actions
+         * @var $this->getVk() The main VK API methods src/API/Actions
          */
-        $msg_id = $this->wrapper->getAPI()->vk->messages()->send([
+        $msg_id = $this->getVk()->messages()->send([
             'user_id' => $object['message']['from_id'],
             'random_id' => floor(microtime(true) * 1000),
             'peer_id' => $object['message']['peer_id'],
