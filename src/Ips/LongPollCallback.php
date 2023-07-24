@@ -42,9 +42,16 @@ class LongPollCallback
     protected $group_id;
     protected $handler;
     protected $http_client;
-    protected $server;
-    protected $last_ts = null;
+    protected $server = [
+        'users' => null,
+        'groups' => null
+    ];
+    protected $last_ts = [
+        'users' => null,
+        'groups' => null
+    ];
     protected $wait;
+    protected $kServer;
 
     public function __construct(
         Client $api_client,
@@ -75,7 +82,6 @@ class LongPollCallback
                 if ($r instanceof \Generator) {
                     $r = Utilities::consumeGenerator($r);
                 }
-
             } finally {
                 $startDeferred->complete();
             }
@@ -89,36 +95,48 @@ class LongPollCallback
      * @param int|null $ts
      * @return mixed|null
      */
-    public function listen(?int $ts = null)
+    public function listen(?int $ts = null, array $kServer = ['groups'])
     {
-        if ($this->server === null) {
-            $this->server = $this->getLongPollServer();
-        }
+        foreach ($kServer as $currentServer) {
+            $this->kServer = $currentServer;
 
-        if ($this->last_ts === null) {
-            $this->last_ts = $this->server[static::SERVER_TIMESTAMP];
-        }
-
-        if ($ts === null) {
-            $ts = $this->last_ts;
-        }
-        try {
-            $response = $this->getEvents($this->server[static::SERVER_URL], $this->server[static::SERVER_KEY], $ts);
-
-            foreach ($response[static::EVENTS_UPDATES] as $event) {
-                $this->handler->parseObject(
-                    $this->group_id,
-                    null,
-                    $event[static::EVENT_TYPE],
-                    $event[static::EVENT_OBJECT]
-                );
+            if ($this->server[$this->kServer] === null) {
+                $this->server[$this->kServer] = $this->getLongPollServer();
             }
 
-            $this->last_ts = $response[static::EVENTS_TS];
-        } catch (VKLongPollServerKeyExpiredException|VKClientException $e) {
-            $this->server = $this->getLongPollServer();
-            return 0;
+            if ($this->last_ts[$this->kServer] === null) {
+                $this->last_ts[$this->kServer] = $this->server[$this->kServer][static::SERVER_TIMESTAMP];
+            }
+
+            if ($ts === null) {
+                $ts = $this->last_ts[$this->kServer];
+            }
+
+            try {
+                $response = $this->getEvents(
+                    $this->server[$this->kServer][static::SERVER_URL],
+                    $this->server[$this->kServer][static::SERVER_KEY],
+                    $ts
+                );
+
+                foreach ($response[static::EVENTS_UPDATES] as $event) {
+                    if (isset($event[static::EVENT_TYPE]) && isset($event[static::EVENT_OBJECT])) {
+                        $this->handler->parseObject(
+                            $this->group_id,
+                            null,
+                            $event[static::EVENT_TYPE],
+                            $event[static::EVENT_OBJECT]
+                        );
+                    }
+                }
+
+                $this->last_ts[$this->kServer] = $response[static::EVENTS_TS];
+            } catch (VKLongPollServerKeyExpiredException|VKClientException $e) {
+                $this->server[$this->kServer] = $this->getLongPollServer();
+                return 0;
+            }
         }
+
         return $this->last_ts;
     }
 
@@ -127,9 +145,15 @@ class LongPollCallback
      */
     protected function getLongPollServer(): array
     {
-        $server = $this->api_client->vk->groups()->getLongPollServer([
-            static::PARAM_GROUP_ID => $this->api_client->vk->getRequest()->getSettings()->getAppInfo()->getGroupId()
-        ]);
+        if ($this->kServer === 'groups') {
+            $server = $this->api_client->vk->groups()->getLongPollServer([
+                static::PARAM_GROUP_ID => $this->api_client->vk->getRequest()->getSettings()->getAppInfo()->getGroupId()
+            ]);
+        } elseif ($this->kServer === 'users') {
+            $server = $this->api_client->vk->messages()->getLongPollServer([
+                static::PARAM_GROUP_ID => $this->api_client->vk->getRequest()->getSettings()->getAppInfo()->getGroupId()
+            ]);
+        }
 
         return [
             static::SERVER_URL       => $server['server'],
@@ -149,6 +173,10 @@ class LongPollCallback
             static::PARAM_WAIT => $this->wait,
             static::PARAM_ACT  => static::VALUE_ACT
         );
+
+        if ($this->kServer === 'users') {
+            $host = 'https://'.$host;
+        }
 
         try {
             $response = $this->http_client->get($host, $params);
@@ -171,7 +199,6 @@ class LongPollCallback
 
         $body = $response->getBody();
         $decode_body = $this->decodeBody($body);
-
         if (isset($decode_body[static::EVENTS_FAILED])) {
             switch ($decode_body[static::EVENTS_FAILED]) {
                 case static::ERROR_CODE_INCORRECT_TS_VALUE:

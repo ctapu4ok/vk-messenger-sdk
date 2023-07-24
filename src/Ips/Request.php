@@ -39,12 +39,7 @@ class Request
         $this->version = $apiVersion;
         $this->endpoint = $apiEndpoint;
         $this->language = $lang;
-        $this->client = $client ?: new HClient(
-            [
-            'base_uri' => $this->endpoint,
-            'timeout'  => static::CONNECTION_TIMEOUT,
-            ]
-        );
+        $this->client = $client ?: new \GuzzleHttp\Client();
         $this->settings = $settings;
     }
 
@@ -62,6 +57,7 @@ class Request
     public function post(string $method, array $params = array()): mixed
     {
         $params = $this->formatParams($params);
+
         $params[static::PARAM_ACCESS_TOKEN] = $this->settings->getAppInfo()->getApiHash();
 
         if (!isset($params[static::PARAM_VERSION])) {
