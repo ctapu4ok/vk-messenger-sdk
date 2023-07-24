@@ -2,11 +2,15 @@
 
 namespace ctapu4ok\VkMessengerSdk\Ips;
 
+use ctapu4ok\VkMessengerSdk\Exceptions\Api\VKApiGroupAuthException;
+use ctapu4ok\VkMessengerSdk\Exceptions\VKException;
 use Revolt\EventLoop;
 
 class UpdateLoop
 {
     private $API;
+
+    private array $servers = ['groups'];
     public function __construct($API)
     {
         $this->API = $API;
@@ -21,7 +25,7 @@ class UpdateLoop
                 $repeatId = EventLoop::repeat(
                     1,
                     function () use ($executor) : void {
-                        $executor->listen();
+                        $executor->listen(null, $this->servers);
                     }
                 );
 

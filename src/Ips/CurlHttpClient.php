@@ -40,7 +40,8 @@ class CurlHttpClient
     public function post(string $url, ?array $payload = null): TransportClientResponse
     {
         return $this->sendRequest(
-            $url, [
+            $url,
+            [
             CURLOPT_POST => 1,
             CURLOPT_POSTFIELDS => $payload
             ]
@@ -158,6 +159,7 @@ class CurlHttpClient
     protected function getHttpStatus(string $raw_response_header): int
     {
         preg_match('|HTTP/\d(?:\.\d)?\s+(\d+)\s+.*|', $raw_response_header, $match);
+
         return (int)$match[1];
     }
 
@@ -192,7 +194,8 @@ class CurlHttpClient
             new \CURLFile($path) : '@' . $path;
 
         return $this->sendRequest(
-            $url, array(
+            $url,
+            array(
             CURLOPT_POST => 1,
             CURLOPT_HTTPHEADER => array(
                 static::HEADER_UPLOAD_CONTENT_TYPE,

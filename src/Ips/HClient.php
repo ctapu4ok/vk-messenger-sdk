@@ -2,17 +2,20 @@
 
 namespace ctapu4ok\VkMessengerSdk\Ips;
 
+use ctapu4ok\VkMessengerSdk\APIWrapper;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Utils;
 use Psr\Http\Message\RequestInterface;
 
-class HClient extends HttpClient
+class HClient
 {
-    private const USER_AGENT = 'VK/php-sdk lib/5.0 api/5.67';
+    private HttpClient $client;
+    private const USER_AGENT = 'ctapu4ok/vk-messenger-sdk lib/'.APIWrapper::RELEASE.' api/5.67';
     public function __construct(array $config = [])
     {
+
         $stack = new HandlerStack();
         $stack->setHandler(Utils::chooseHandler());
 
